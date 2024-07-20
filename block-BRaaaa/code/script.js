@@ -1,36 +1,52 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const movieInput = document.getElementById('movie-input');
-    const movieList = document.getElementById('movie-list');
+let input = document.querySelector(`input[type='text']`);
+let rootelm = document.querySelector('.movie-list');
 
-    movieInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && movieInput.value.trim() !== '') {
-            addMovie(movieInput.value.trim());
-            movieInput.value = '';
-        }
-    });
-
-    function addMovie(movieName) {
-        const li = document.createElement('li');
-        const movieNameSpan = document.createElement('span');
-        movieNameSpan.textContent = movieName;
-
-        const statusButton = document.createElement('button');
-        statusButton.textContent = 'To Watch';
-        statusButton.classList.add('to-watch');
-        statusButton.addEventListener('click', () => {
-            if (statusButton.textContent === 'To Watch') {
-                statusButton.textContent = 'Watched';
-                statusButton.classList.remove('to-watch');
-                statusButton.classList.add('watched');
-            } else {
-                statusButton.textContent = 'To Watch';
-                statusButton.classList.remove('watched');
-                statusButton.classList.add('to-watch');
-            }
-        });
-
-        li.appendChild(movieNameSpan);
-        li.appendChild(statusButton);
-        movieList.appendChild(li);
+let allmovies = [
+    {
+        name: 'inception',
+        watched: false
+    },
+    {
+        name: "Home Coming",
+        watched: true
     }
-});
+];
+
+
+
+function createMovieUi(){
+      rootelm.innerHTML = "";
+    
+    allmovies.forEach((movie,index)=>{
+        let li = document.createElement('li');
+
+        var name = document.createElement('h2');
+        name.innerText = movie.name
+
+        let watchedbutton = document.createElement('button');
+        watchedbutton.innerHTML = "To watch";
+        watchedbutton.addEventListener('click',()=>{
+            if (watchedbutton.innerHTML == 'To watch') {
+                watchedbutton.innerHTML = 'Watched';
+            } else if (watchedbutton.innerHTML == 'Watched') {
+                watchedbutton.innerHTML = 'To watch';
+            }
+        })
+        li.append(name,watchedbutton);
+        rootelm.append(li)
+
+    })
+    
+ 
+}
+
+input.addEventListener('keyup',(event)=>{
+    if(event.keyCode === 13){
+        allmovies.push({
+            name: event.target.value,
+            watched: false
+        });
+        event.target.value = '';
+        createMovieUi()
+    }
+})
