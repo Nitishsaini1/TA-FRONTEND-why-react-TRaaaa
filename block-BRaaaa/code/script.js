@@ -31,6 +31,8 @@ function createMovieUi(){
             } else if (watchedbutton.innerHTML == 'Watched') {
                 watchedbutton.innerHTML = 'To watch';
             }
+
+            
         })
         li.append(name,watchedbutton);
         rootelm.append(li)
